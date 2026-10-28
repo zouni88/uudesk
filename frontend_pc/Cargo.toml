@@ -9,7 +9,6 @@ members = [
     "crates/uu-audio",
     "crates/uu-ffi",
     "crates/uu-meeting",
-    "crates/uu-app",
 ]
 
 [workspace.package]

@@ -11,7 +11,7 @@ pub struct DeviceInfo {
     pub name: String,
 }
 
-/// 身份目录：%APPDATA%/uudesk/identity（与 uu-app 相同方式）
+/// 身份目录：%APPDATA%/uudesk/identity
 pub fn identity_dir() -> PathBuf {
     let dir = if cfg!(windows) {
         std::env::var("APPDATA")

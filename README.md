@@ -109,7 +109,7 @@ flutter run
 ```bash
 cd frontend_pc
 cargo test --workspace
-cargo build -p uu-app
+cargo build --workspace
 ```
 
 ## 配置
