@@ -1,0 +1,22 @@
+[package]
+name = "uu-meeting"
+version.workspace = true
+edition.workspace = true
+
+[features]
+default = []
+# 真实 LiveKit SDK（native）。关闭时使用 mock 实现保证 workspace 可编译。
+lk-native = ["dep:livekit"]
+
+[dependencies]
+uu-proto.workspace = true
+uu-screen.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+ureq = { version = "2", default-features = false, features = ["tls", "json"] }
+futures-util.workspace = true
+livekit = { version = "0.9.7", optional = true }

@@ -1,0 +1,13 @@
+# Rust 构建产物
+frontend_pc/target/
+
+# 截图与临时文件
+.screenshots/
+*.tmp
+
+# 本地环境变量（保留 .env.example）
+.env
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db

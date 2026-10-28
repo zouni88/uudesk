@@ -1,0 +1,23 @@
+[
+  {
+    "name": "phone",
+    "role": "phone",
+    "device_id": "TZMWLFCBAQTZMWLF",
+    "spki_pin": "TZMWLFCBAQTZMWLF",
+    "token": "d1baf1c13f0dcdce13381d6e5d0ae263b4edaa321b05ca206b6da357a61394ab"
+  },
+  {
+    "name": "test-pc",
+    "role": "pc",
+    "device_id": "ABCDEFGH12345678",
+    "spki_pin": "pin123",
+    "token": "07265cd475ceca0bb4283e41508abcbb025d6da21ce21cd80b45877348b2f761"
+  },
+  {
+    "name": "demo-pc",
+    "role": "pc",
+    "device_id": "DEMO123",
+    "spki_pin": "abc",
+    "token": "251e9b02ddc21a9bcba19f3d8952b0d5dee9955c8a5e45af009adaa6b4eeba7e"
+  }
+]

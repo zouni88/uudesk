@@ -1,0 +1,16 @@
+[package]
+name = "uu-screen"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+uu-proto.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+xcap = "0.0"
+openh264 = { version = "0.6", optional = true }
+
+[features]
+default = ["codec"]
+# 关闭后不编译 openh264（Windows 缺 nasm/C++ 工具链时使用）
+codec = ["dep:openh264"]

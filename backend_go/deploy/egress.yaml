@@ -1,0 +1,10 @@
+# LiveKit Egress 服务配置。api_key/api_secret 由环境变量 LIVEKIT_KEYS 注入。
+# 输出规格在启动请求中声明（RoomComposite → MP4 → /recordings，
+# 由 POST /api/meeting/egress/start 生成的 livekit-cli 命令携带）：
+#   {"roomName":"<room>","file":{"filepath":"recordings/{room_name}/{time}.mp4","filetype":"MP4"}}
+# compose 已将 ./recordings 挂载到本容器 /recordings，产物即落宿主机磁盘。
+redis_address: redis:6379
+ws_url: ws://livekit:7881
+health_check_port: 8085
+logging:
+  level: info

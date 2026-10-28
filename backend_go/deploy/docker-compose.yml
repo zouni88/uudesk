@@ -1,0 +1,70 @@
+# UUDesk 会议栈部署（规范 §10.3）：livekit-server + redis + turn + egress + uudesk-server。
+# 用法：cp .env.example .env 并填写，然后 docker compose up -d。
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  livekit:
+    image: livekit/livekit-server:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      # 与 .env 的 LIVEKIT_API_KEY/LIVEKIT_API_SECRET 一致（覆盖 config 中 keys）
+      - "LIVEKIT_KEYS=${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}"
+    command: --config /etc/livekit/config.yaml
+    volumes:
+      - ./livekit-config.yaml:/etc/livekit/config.yaml:ro
+    ports:
+      - "7881:7881"        # ws 信令 + WebRTC RTC（tcp/udp 同端口）
+      - "7881:7881/udp"
+      - "7882:7882"        # rtc.tcp_port（WebRTC over TCP 回退，不能与 7881 相同）
+      - "50000-50010:50000-50010/udp" # simulcast 扩展端口范围，按需调整
+
+  turn:
+    image: livekit/turn-server:latest
+    restart: unless-stopped
+    network_mode: host      # TURN 需透传真实客户端地址，host 网络最省事
+    volumes:
+      - ./certs:/etc/turn:ro   # TURN/TLS(5349) 证书；无 TLS 可去掉 --tls-* 参数
+    # 具体参数名以 `docker run --rm livekit/turn-server --help` 为准
+    command:
+      - --ping
+      - --keys=${LIVEKIT_API_KEY}=${LIVEKIT_API_SECRET}
+      - --base-port=3478            # TURN/UDP+TCP 3478
+      - --public-address=${EXTERNAL_IP}
+      - --tls-listen=5349           # TURN/TLS 5349
+      - --tls-cert-file=/etc/turn/cert.pem
+      - --tls-key-file=/etc/turn/key.pem
+
+  egress:
+    image: livekit/egress:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - livekit
+    environment:
+      - EGRESS_CONFIG_FILE=/etc/egress/config.yaml
+      - "LIVEKIT_KEYS=${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}"
+    volumes:
+      - ./egress.yaml:/etc/egress/config.yaml:ro
+      - ./recordings:/recordings   # 录制产物目录，uudesk-server 与前端共享
+
+  uudesk-server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    environment:
+      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      - LIVEKIT_URL=${LIVEKIT_URL}
+      - REDIS_ADDR=redis:6379
+    volumes:
+      - ../data:/data
+      - ./recordings:/recordings
+    ports:
+      - "8080:8080"        # Go API/WS
+      - "8443:8443/udp"    # QUIC 中继

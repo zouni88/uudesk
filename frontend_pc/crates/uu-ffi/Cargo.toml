@@ -1,0 +1,15 @@
+[package]
+name = "uu-ffi"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+uu-proto.workspace = true
+uu-transport.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+libc = "0.2"
+tokio.workspace = true

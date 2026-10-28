@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: system-ui, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* 品牌与功能色 */
+  --color-brand: #3370ff;
+  --color-brand-hover: #5588ff;
+  --color-brand-active: #245bdb;
+  --color-success: #00b96b;
+  --color-warning: #ff8800;
+  --color-danger: #f54a45;
+  --color-danger-active: #d93632;
+
+  /* 深色导航栏（两套主题下保持一致） */
+  --color-nav: #1f2329;
+  --color-nav-item: #c5c8cc;
+  --color-nav-hover: rgba(255, 255, 255, 0.08);
+
+  /* 语义化表面色（随 .dark 切换） */
+  --color-page: #f2f3f5;
+  --color-card: #ffffff;
+  --color-raised: #f7f8fa;
+  --color-line: #e5e6eb;
+  --color-ink: #1f2329;
+  --color-ink-2: #646a73;
+  --color-ink-3: #8f959e;
+
+  /* 会议舞台深色（不随主题切换） */
+  --color-stage: #14161a;
+  --color-stage-cell: #1d2026;
+}
+
+.dark {
+  --color-page: #17181a;
+  --color-card: #232529;
+  --color-raised: #2a2d31;
+  --color-line: #35373b;
+  --color-ink: #e8eaed;
+  --color-ink-2: #a6adb6;
+  --color-ink-3: #7a828c;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-page);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 细滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 134, 143, 0.45) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(128, 134, 143, 0.45);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 舞台内视频铺满 */
+.cell-video video,
+.cell-video canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.spotlight-video video,
+.spotlight-video canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* 表情飘屏 */
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.6);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1.15);
+  }
+  24% {
+    transform: translateY(-6px) scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-140px) scale(0.9);
+  }
+}
+.animate-float-up {
+  animation: float-up 2.6s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.22s ease-out both;
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.22s ease-out both;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-pop-in {
+  animation: pop-in 0.16s ease-out both;
+}
+
+/* 连接阶段步骤条脉冲 */
+@keyframes step-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(51, 112, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(51, 112, 255, 0);
+  }
+}
+.animate-step-pulse {
+  animation: step-pulse 1.2s ease-in-out infinite;
+}
+
+/* 说话光环 */
+@keyframes speak-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(0, 185, 107, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(0, 185, 107, 0.9), 0 0 14px 2px rgba(0, 185, 107, 0.35);
+  }
+}
+.speaking-ring {
+  animation: speak-ring 1.4s ease-in-out infinite;
+}

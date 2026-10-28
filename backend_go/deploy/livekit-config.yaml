@@ -1,0 +1,20 @@
+# LiveKit server 配置（规范 §10.3）。
+# keys 为占位值；compose 通过环境变量 LIVEKIT_KEYS 注入真实 key/secret 并覆盖本节。
+keys:
+  devkey: devsecret
+
+port: 7881        # ws 信令端口（客户端 wss://<host>:7881）
+
+rtc:
+  # 注意：LiveKit 1.13 的 rtc.portTCP 默认值就是 7881，与顶层信令 port 冲突
+  # （listen tcp :7881 already in use），必须显式设为其它端口并在 compose 映射。
+  tcp_port: 7882
+  use_external_ip: false
+  # 局域网真机测试：通告主机 LAN IP，配合 compose 的 UDP 端口映射（50000-50010/7881）。
+  # 部署公网时改为：use_external_ip: true 并删除 node_ip。
+  node_ip: 192.168.3.41
+  port_range_start: 50000
+  port_range_end: 50010
+
+redis:
+  address: redis:6379

@@ -1,0 +1,26 @@
+[package]
+name = "uu-app"
+version.workspace = true
+edition.workspace = true
+
+[features]
+default = []
+# 真实 LiveKit 会议实现（透传 uu-meeting/lk-native）
+lk-native = ["uu-meeting/lk-native"]
+
+[dependencies]
+uu-proto.workspace = true
+uu-transport.workspace = true
+uu-screen.workspace = true
+uu-input.workspace = true
+uu-clipboard.workspace = true
+uu-audio.workspace = true
+uu-meeting.workspace = true
+eframe = "0.29"
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+rand.workspace = true
+anyhow.workspace = true

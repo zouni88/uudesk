@@ -1,0 +1,15 @@
+[package]
+name = "uu-audio"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+uu-proto.workspace = true
+thiserror.workspace = true
+cpal = { version = "0.15", optional = true }
+opus = { version = "0.3", optional = true }
+
+[features]
+default = []
+# cpal/opus 原生后端需要 C 工具链，默认关闭，仅保留 trait 与骨架实现
+backend = ["dep:cpal", "dep:opus"]

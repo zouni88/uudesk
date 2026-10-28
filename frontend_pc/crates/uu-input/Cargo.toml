@@ -1,0 +1,9 @@
+[package]
+name = "uu-input"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+uu-proto.workspace = true
+thiserror.workspace = true
+enigo = "0.2"

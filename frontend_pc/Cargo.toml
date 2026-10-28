@@ -1,0 +1,50 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/uu-proto",
+    "crates/uu-transport",
+    "crates/uu-screen",
+    "crates/uu-input",
+    "crates/uu-clipboard",
+    "crates/uu-audio",
+    "crates/uu-ffi",
+    "crates/uu-meeting",
+    "crates/uu-app",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "io-util"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+anyhow = "1"
+quinn = { version = "0.11", default-features = false, features = ["rustls", "runtime-tokio"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "logging"] }
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "logging"] }
+webpki-roots = "0.26"
+rcgen = "0.13"
+data-encoding = "2"
+sha2 = "0.10"
+hex = "0.4"
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-webpki-roots", "handshake"] }
+futures-util = "0.3"
+socket2 = "0.5"
+url = "2"
+rand = "0.8"
+tracing = "0.1"
+
+uu-proto = { path = "crates/uu-proto" }
+uu-transport = { path = "crates/uu-transport" }
+uu-screen = { path = "crates/uu-screen" }
+uu-input = { path = "crates/uu-input" }
+uu-clipboard = { path = "crates/uu-clipboard" }
+uu-audio = { path = "crates/uu-audio" }
+uu-meeting = { path = "crates/uu-meeting" }
+
+[profile.dev]
+opt-level = 1
